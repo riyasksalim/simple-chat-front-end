@@ -1,12 +1,12 @@
-name: Build React Application
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Replace with your branch name if different
+      - main  # Change to your default branch if different
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'  # Replace with your required Node.js version
+          node-version: '14'  # Replace with your Node.js version
 
       - name: Install Dependencies
         run: npm install
@@ -24,8 +24,8 @@ jobs:
       - name: Build Application
         run: npm run build
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: build
-          path: build/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
